@@ -1,3 +1,17 @@
+### Notes
+I am running with:
+- Windows 10.0.19045
+- Python 3.9.13
+- CUDA 12.2
+- GCC 8.3.0
+
+1. Install pre-compiled models / dataset as listed in the original README (below).
+2. Install requirements.txt
+3. Run scripts/modified_test.py
+4. Exit program using ctrl+c
+
+--------------------------------------------
+
 # End-to-end Trainable Deep Neural Network for Robotic Grasp Detection and Semantic Segmentation from RGB
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/end-to-end-trainable-deep-neural-network-for/robotic-grasping-on-cornell-grasp-dataset-1)](https://paperswithcode.com/sota/robotic-grasping-on-cornell-grasp-dataset-1?p=end-to-end-trainable-deep-neural-network-for)
