@@ -10,5 +10,6 @@ call pip install umsgpack==0.1.0
 call pip install future==1.0.0
 call pip install tensorboard==1.14.0
 
+call git clone https://github.com/mapillary/inplace_abn.git
 call pip install --no-build-isolation ./inplace_abn
 call pip install -e .
