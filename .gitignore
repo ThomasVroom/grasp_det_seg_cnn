@@ -12,3 +12,6 @@ dist/
 GraspDetSeg_CNN.egg-info/
 
 weights_pretrained/resnet101
+
+__pycache__/
+_version.py
