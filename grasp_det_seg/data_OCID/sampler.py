@@ -4,10 +4,9 @@ import torch
 from torch import distributed
 from torch.utils.data.sampler import Sampler
 
-
 class ARBatchSampler(Sampler):
     def __init__(self, data_source, batch_size, drop_last=False, epoch=0):
-        super(ARBatchSampler, self).__init__(data_source)
+        super(ARBatchSampler, self).__init__()
         self.data_source = data_source
         self.batch_size = batch_size
         self.drop_last = drop_last
@@ -72,10 +71,7 @@ class ARBatchSampler(Sampler):
     def __iter__(self):
         batches = self._generate_batches()
         for batch in batches:
-            batch = sorted(batch, key=lambda i: i["ar"])
-            batch = [i["id"] for i in batch]
             yield batch
-
 
 class DistributedARBatchSampler(ARBatchSampler):
     def __init__(self, data_source, batch_size, num_replicas=None, rank=None, drop_last=False, epoch=0):

@@ -8,7 +8,6 @@ from grasp_det_seg.utils.roi_sampling import roi_sampling
 from .detection import DetectionAlgo
 from .rpn import RPNAlgo
 
-
 class RPNAlgoFPN(RPNAlgo):
     """RPN algorithm for FPN-based region proposal networks
 
@@ -119,7 +118,6 @@ class RPNAlgoFPN(RPNAlgo):
         anchors = torch.cat(anchors, dim=0)
 
         return self._inference(obj_logits, bbx_logits, anchors, valid_size, training)
-
 
 class DetectionAlgoFPN(DetectionAlgo):
     """Detection algorithm for FPN networks

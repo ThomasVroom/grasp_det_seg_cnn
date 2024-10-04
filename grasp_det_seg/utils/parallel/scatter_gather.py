@@ -3,7 +3,6 @@ from torch.nn.parallel._functions import Scatter, Gather
 
 from .packed_sequence import PackedSequence
 
-
 def scatter(inputs, target_gpus, dim=0):
     r"""
     Slices tensors into approximately equal chunks and
@@ -34,7 +33,6 @@ def scatter(inputs, target_gpus, dim=0):
     finally:
         scatter_map = None
 
-
 def scatter_kwargs(inputs, kwargs, target_gpus, dim=0):
     r"""Scatter with support for kwargs dictionary"""
     inputs = scatter(inputs, target_gpus, dim) if inputs else []
@@ -46,7 +44,6 @@ def scatter_kwargs(inputs, kwargs, target_gpus, dim=0):
     inputs = tuple(inputs)
     kwargs = tuple(kwargs)
     return inputs, kwargs
-
 
 def gather(outputs, target_device, dim=0):
     r"""
@@ -76,7 +73,6 @@ def gather(outputs, target_device, dim=0):
     finally:
         gather_map = None
 
-
 def packed_sequence_scatter(seq, target_gpus):
     # Find chunks
     k, m = divmod(len(seq), len(target_gpus))
@@ -85,7 +81,6 @@ def packed_sequence_scatter(seq, target_gpus):
     for device, (i, j) in zip(target_gpus, limits):
         outs.append(seq[i:j].cuda(device))
     return outs
-
 
 def packed_sequence_gather(seqs, target_device):
     out = seqs[0].cuda(target_device)

@@ -3,7 +3,6 @@ import numpy as np
 
 from grasp_det_seg.utils.parallel import PackedSequence
 
-
 def iss_collate_fn(items):
     """Collate function for ISS batches"""
     out = {}
@@ -54,7 +53,7 @@ def read_boxes_from_file(gt_path,delta_xy):
     with open(gt_path)as f:
         points_list = []
         box_list = []
-        for count, line in enumerate(f):
+        for line in f:
             line = line.rstrip()
             [x, y] = line.split(' ')
             x = float(x) - int(delta_xy[0])

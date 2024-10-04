@@ -8,7 +8,6 @@ from bisect import bisect_right
 
 from torch.optim import Optimizer
 
-
 class _LRScheduler(object):
     def __init__(self, optimizer, last_epoch=-1):
         if not isinstance(optimizer, Optimizer):
@@ -51,7 +50,6 @@ class _LRScheduler(object):
         self.last_epoch = epoch
         for param_group, lr in zip(self.optimizer.param_groups, self.get_lr()):
             param_group['lr'] = lr
-
 
 class LambdaLR(_LRScheduler):
     """Sets the learning rate of each parameter group to the initial lr
@@ -118,7 +116,6 @@ class LambdaLR(_LRScheduler):
         return [base_lr * lmbda(self.last_epoch)
                 for lmbda, base_lr in zip(self.lr_lambdas, self.base_lrs)]
 
-
 class StepLR(_LRScheduler):
     """Sets the learning rate of each parameter group to the initial lr
     decayed by gamma every step_size epochs. When last_epoch=-1, sets
@@ -150,7 +147,6 @@ class StepLR(_LRScheduler):
     def get_lr(self):
         return [base_lr * self.gamma ** (self.last_epoch // self.step_size)
                 for base_lr in self.base_lrs]
-
 
 class MultiStepLR(_LRScheduler):
     """Set the learning rate of each parameter group to the initial lr decayed
@@ -185,7 +181,6 @@ class MultiStepLR(_LRScheduler):
     def get_lr(self):
         return [base_lr * self.gamma ** bisect_right(self.milestones, self.last_epoch)
                 for base_lr in self.base_lrs]
-
 
 class BurnInLR(_LRScheduler):
     def __init__(self, base, steps, start):

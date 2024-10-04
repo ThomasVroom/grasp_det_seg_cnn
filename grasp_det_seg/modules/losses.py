@@ -2,7 +2,6 @@ import torch
 
 from grasp_det_seg.utils.parallel import PackedSequence
 
-
 def smooth_l1(x1, x2, sigma):
     """Smooth L1 loss"""
     sigma2 = sigma ** 2
@@ -12,7 +11,6 @@ def smooth_l1(x1, x2, sigma):
 
     mask = (abs_diff.detach() < (1. / sigma2)).float()
     return mask * (sigma2 / 2.) * diff ** 2 + (1 - mask) * (abs_diff - 0.5 / sigma2)
-
 
 def ohem_loss(loss, ohem=None):
     if isinstance(loss, torch.Tensor):

@@ -4,7 +4,6 @@ import torch.nn.functional as functional
 
 from inplace_abn import ABN
 
-
 class GlobalAvgPool2d(nn.Module):
     """Global average pooling over the input's spatial dimensions"""
 
@@ -14,7 +13,6 @@ class GlobalAvgPool2d(nn.Module):
     def forward(self, inputs):
         in_size = inputs.size()
         return inputs.view((in_size[0], in_size[1], -1)).mean(dim=2)
-
 
 class Interpolate(nn.Module):
     """nn.Module wrapper to nn.functional.interpolate"""
@@ -28,7 +26,6 @@ class Interpolate(nn.Module):
 
     def forward(self, x):
         return functional.interpolate(x, self.size, self.scale_factor, self.mode, self.align_corners)
-
 
 class ActivatedAffine(ABN):
     """Drop-in replacement for ABN which performs inference-mode BN + activation"""
@@ -69,7 +66,6 @@ class ActivatedAffine(ABN):
             return x
         else:
             raise RuntimeError("Unknown activation function {}".format(self.activation))
-
 
 class ActivatedGroupNorm(ABN):
     """GroupNorm + activation function compatible with the ABN interface"""

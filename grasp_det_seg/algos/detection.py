@@ -3,11 +3,10 @@ import torch
 import torch.nn.functional as functional
 
 from grasp_det_seg.modules.losses import smooth_l1
-from grasp_det_seg.utils.bbx import ious, calculate_shift, bbx_overlap, mask_overlap
+from grasp_det_seg.utils.bbx import ious, calculate_shift
 from grasp_det_seg.utils.misc import Empty
 from grasp_det_seg.utils.nms import nms
 from grasp_det_seg.utils.parallel import PackedSequence
-
 
 class PredictionGenerator:
     """Perform NMS-based selection of detections
@@ -120,7 +119,6 @@ class PredictionGenerator:
                 obj_pred.append(None)
 
         return PackedSequence(bbx_pred), PackedSequence(cls_pred), PackedSequence(obj_pred)
-
 
 class ProposalMatcher:
     """Match proposals to ground truth boxes
@@ -267,7 +265,6 @@ class ProposalMatcher:
 
         return PackedSequence(out_proposals), PackedSequence(match)
 
-
 class DetectionLoss:
     """Detection loss"""
 
@@ -305,7 +302,6 @@ class DetectionLoss:
             bbx_loss = bbx_logits.sum() * 0
 
         return cls_loss, bbx_loss
-
 
 class DetectionAlgo:
     """Base class for detection algorithms

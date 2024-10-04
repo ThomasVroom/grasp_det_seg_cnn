@@ -2,7 +2,6 @@ from torch.nn.parallel import DistributedDataParallel as TorchDistributedDataPar
 
 from .scatter_gather import scatter_kwargs, gather
 
-
 class DistributedDataParallel(TorchDistributedDataParallel):
     """`nn.parallel.DistributedDataParallel` extension which can handle `PackedSequence`s"""
 

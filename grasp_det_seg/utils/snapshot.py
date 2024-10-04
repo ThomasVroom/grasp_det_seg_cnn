@@ -2,7 +2,6 @@ import torch
 
 from .misc import config_to_string
 
-
 def save_snapshot(file, config, epoch, last_score, best_score, global_step, **kwargs):
     data = {
         "config": config_to_string(config),
@@ -15,7 +14,6 @@ def save_snapshot(file, config, epoch, last_score, best_score, global_step, **kw
         }
     }
     torch.save(data, file)
-
 
 def pre_train_from_snapshots(model, snapshots, modules):
     for snapshot in snapshots:
@@ -37,7 +35,6 @@ def pre_train_from_snapshots(model, snapshots, modules):
             else:
                 raise ValueError("Unrecognized network module {}".format(module_name))
 
-
 def resume_from_snapshot(model, snapshot, modules):
     snapshot = torch.load(snapshot, map_location="cpu")
     state_dict = snapshot["state_dict"]
@@ -49,7 +46,6 @@ def resume_from_snapshot(model, snapshot, modules):
             raise KeyError("The given snapshot does not contain a state_dict for module '{}'".format(module))
 
     return snapshot
-
 
 def _load_pretraining_dict(model, state_dict):
     """Load state dictionary from a pre-training snapshot

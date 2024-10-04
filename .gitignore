@@ -1,0 +1,13 @@
+.eggs/
+.venv/
+
+ckpt_files_OCID/pretrained/model_last.pth.tar
+
+DATA/logs/
+DATA/OCID_grasp/
+DATA/output/
+
+dist/
+GraspDetSeg_CNN.egg-info/
+
+weights_pretrained/resnet101
