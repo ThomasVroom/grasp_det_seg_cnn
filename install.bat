@@ -1,6 +1,3 @@
-call python -m venv .venv
-call .venv\Scripts\activate
-
 call pip install numpy==1.26.4
 call pip install opencv-contrib-python
 call pip install Pillow==10.4.0
@@ -13,5 +10,5 @@ call pip install umsgpack==0.1.0
 call pip install future==1.0.0
 call pip install tensorboard==1.14.0
 
-call pip install --no-build-isolation inplace_abn
+call pip install --no-build-isolation ./inplace_abn
 call pip install -e .

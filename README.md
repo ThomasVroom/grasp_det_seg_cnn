@@ -5,10 +5,13 @@ I am running with:
 - CUDA 12.2
 - GCC 8.3.0
 
-1. Install pre-compiled models / dataset as listed in the original README (below).
-2. Install requirements.txt
-3. Run scripts/modified_test.py
-4. Exit program using ctrl+c
+1. Make sure you have python, cuda, and gcc installed.
+2. Install pre-compiled models / dataset as listed in the original README (below).
+3. Create a virtual environment
+4. Run `install.bat` in the venv (this might take 10+ minutes)
+5. Run `scripts/modified_test.py`
+6. Exit program using ctrl+c
+7. Check output in `DATA/output/`
 
 --------------------------------------------
 
