@@ -1,6 +1,5 @@
 from math import log
 import math
-import numpy as np
 import torch
 
 from . import _backend
@@ -18,7 +17,6 @@ __all__ = [
     "mask_overlap",
     "bbx_overlap"
 ]
-
 
 def extract_boxes(mask, num_instances):
     """Calculate bounding boxes from instance segmentation mask
@@ -39,7 +37,6 @@ def extract_boxes(mask, num_instances):
     if mask.ndimension() == 2:
         mask = mask.unsqueeze(0)
     return _backend.extract_boxes(mask, num_instances)
-
 
 def shift_boxes(bbx, shift, dim=-1, scale_clip=log(1000. / 16.)):
     """Shift bounding boxes using the faster r-CNN formulas
@@ -108,11 +105,9 @@ def shift_boxes_rotation(bbx,theta, shift, dim=-1, scale_clip=log(1000. / 16.)):
     # convert degree to rad
     theta_ = (theta * torch.Tensor([math.pi]).float().to('cuda:0')) / 180.
 
-
     yx_in, hw_in = corners_to_center_scale(*bbx.split(2, dim=dim))
     y_in,x_in = yx_in.split(1,dim=dim)
     h_in,w_in = hw_in.split(1,dim=dim)
-    dyx, dhw,_ = shift.split((2,2,1), dim=dim)
 
     dy, dx, dh,dw, dtheta = shift.split((1,1,1,1,1), dim=dim)
 
@@ -121,17 +116,13 @@ def shift_boxes_rotation(bbx,theta, shift, dim=-1, scale_clip=log(1000. / 16.)):
     pred_w = torch.exp(dw.clamp(max=scale_clip)) * w_in
     pred_h = torch.exp(dh.clamp(max=scale_clip)) * h_in
 
-    pred_angle = (torch.Tensor([math.pi]).float().to('cuda:0')) * dtheta + theta_.unsqueeze(1)#[:, np.newaxis]
-    #pred_angle = pred_angle % (torch.Tensor([math.pi]).float().to('cuda:0'))
+    pred_angle = (torch.Tensor([math.pi]).float().to('cuda:0')) * dtheta + theta_.unsqueeze(1)
     pred_angle = torch.fmod(pred_angle,torch.Tensor([math.pi]).float().to('cuda:0')) * (180./torch.Tensor([math.pi]).float().to('cuda:0'))
-    #torch.fmod(theta_gt - cls_pred_i, torch.Tensor([math.pi]).float().to('cuda:0'))
-    yx_out_ = yx_in + hw_in * dyx
-    hw_out_ = hw_in * dhw.clamp(max=scale_clip).exp()
+
     yx_out = torch.cat((pred_ctr_y,pred_ctr_x),dim=dim)
     hw_out = torch.cat((pred_h,pred_w),dim=dim)
 
     return torch.cat(center_scale_to_corners(yx_out, hw_out), dim=dim),pred_angle
-
 
 def calculate_shift(bbx0, bbx1, dim=-1, eps=1e-5):
     """Calculate shift parameters between bounding boxes using the faster r-CNN formulas
@@ -209,18 +200,10 @@ def calculate_shift_rotation(bbx0, bbx1,cls_pred_i,theta_gt, dim=-1, eps=1e-5):
     # convert degree to rad
     cls_pred_i_ = (cls_pred_i * torch.Tensor([math.pi]).float().to('cuda:0')) / 180.
     theta_gt_ = (theta_gt * torch.Tensor([math.pi]).float().to('cuda:0')) / 180.
-    #cls_pred_i_ = cls_pred_i
-    #theta_gt_ = theta_gt
 
-
-    #dyx = (yx1 - yx0) / hw0
-    #dyx = (yx1 - yx0)
-    #tx_mat = [torch.cos(cls_pred_i), torch.sin(cls_pred_i)]
-    #ty_mat = [torch.cos(cls_pred_i), -torch.sin(cls_pred_i)]
     dx = (1/hw0[:,1]) * ((yx1[:,1] - yx0[:,1]) * torch.cos(cls_pred_i_) + (yx1[:,0] - yx0[:,0]) * torch.sin(cls_pred_i_))
     dy = (1/hw0[:,0]) * ((yx1[:,0] - yx0[:,0]) * torch.cos(cls_pred_i_) - (yx1[:,1] - yx0[:,1]) * torch.sin(cls_pred_i_))
-    #t_theta = torch.Tensor([1/2*math.pi]).float().to('cuda:0') * \
-    #          torch.fmod(theta_gt-cls_pred_i,torch.Tensor([2*math.pi]).float().to('cuda:0'))
+
     t_theta = torch.Tensor([1/math.pi]).float().to('cuda:0') * \
               torch.fmod(theta_gt_-cls_pred_i_,torch.Tensor([math.pi]).float().to('cuda:0'))
     dhw = (hw1 / hw0).log()
@@ -234,14 +217,12 @@ def corners_to_center_scale(p0, p1):
     hw = p1 - p0
     return yx, hw
 
-
 def center_scale_to_corners(yx, hw):
     """Convert bounding boxes from "center+scale" form to "corners" form"""
     hw_half = 0.5 * hw
     p0 = yx - hw_half
     p1 = yx + hw_half
     return p0, p1
-
 
 def invert_roi_bbx(bbx, roi_size, img_size):
     """Compute bbx coordinates to perform inverse roi sampling"""
@@ -250,7 +231,6 @@ def invert_roi_bbx(bbx, roi_size, img_size):
         -bbx.new(roi_size) * bbx[:, :2] / bbx_size,
         bbx.new(roi_size) * (bbx.new(img_size) - bbx[:, :2]) / bbx_size
     ], dim=1)
-
 
 def ious(bbx0, bbx1):
     """Calculate intersection over union between sets of bounding boxes
@@ -279,7 +259,6 @@ def ious(bbx0, bbx1):
     bbx1_area = (bbx1_br - bbx1_tl).prod(dim=-1)
     return intersection / (bbx0_area + bbx1_area - intersection)
 
-
 def mask_overlap(bbx, mask):
     """Calculate overlap between a set of bounding boxes and a mask
 
@@ -304,7 +283,6 @@ def mask_overlap(bbx, mask):
     area = (bbx[:, 2:] - bbx[:, :2]).prod(dim=1)
 
     return count / area
-
 
 def bbx_overlap(bbx0, bbx1):
     """Calculate intersection over area between two sets of bounding boxes

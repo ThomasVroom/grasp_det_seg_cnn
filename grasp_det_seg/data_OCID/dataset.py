@@ -5,7 +5,6 @@ import torch.utils.data as data
 import os
 from PIL import Image
 
-
 class OCIDDataset(data.Dataset):
     """OCID_grasp dataset for grasp detection and semantic segmentation
     """
@@ -37,7 +36,7 @@ class OCIDDataset(data.Dataset):
         with open(anno_path, "r") as f:
             points_list = []
             boxes_list = []
-            for count, line in enumerate(f):
+            for line in f:
                 line = line.rstrip()
                 [x, y] = line.split(' ')
 
@@ -133,7 +132,6 @@ class OCIDDataset(data.Dataset):
         else:
             raise ValueError("No image found with id %s" % idx)
 
-
 class OCIDTestDataset(data.Dataset):
 
     def __init__(self, data_path, root_dir, split_name, transform):
@@ -166,11 +164,12 @@ class OCIDTestDataset(data.Dataset):
     def __getitem__(self, item):
         seq_path, im_name = item.split(',')
         sample_path = os.path.join(self.root_dir, seq_path)
-        img_path = os.path.join(sample_path, 'rgb', im_name)
+        img_path = os.path.join('DATA/OCID_grasp', sample_path, 'rgb', im_name)
         img_bgr = cv2.imread(img_path)
         im_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
 
         img_, im_size = self.transform(im_rgb)
+        item = 'DATA/OCID_grasp/' + item
 
         return {"img": img_,
                 "root_path": self.root_dir,

@@ -1,3 +1,20 @@
+### Notes
+I am running with:
+- Windows 10.0.19045
+- Python 3.9.13
+- CUDA 12.2
+- GCC 8.3.0
+
+1. Make sure you have python, cuda, and gcc installed.
+2. Install pre-compiled models / dataset as listed in the original README (below).
+3. Create a virtual environment
+4. Run `install.bat` in the venv (this might take 10+ minutes)
+5. Run `scripts/modified_test.py`
+6. Exit program using ctrl+c
+7. Check output in `DATA/output/`
+
+--------------------------------------------
+
 # End-to-end Trainable Deep Neural Network for Robotic Grasp Detection and Semantic Segmentation from RGB
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/end-to-end-trainable-deep-neural-network-for/robotic-grasping-on-cornell-grasp-dataset-1)](https://paperswithcode.com/sota/robotic-grasping-on-cornell-grasp-dataset-1?p=end-to-end-trainable-deep-neural-network-for)

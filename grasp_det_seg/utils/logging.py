@@ -6,11 +6,9 @@ from .meters import AverageMeter
 
 _NAME = "GraspDetSeg_CNN"
 
-
 def _current_total_formatter(current, total):
     width = int(log10(total)) + 1
     return ("[{:" + str(width) + "}/{:" + str(width) + "}]").format(current, total)
-
 
 def init(log_dir, name):
     logger = logging.getLogger(_NAME)
@@ -30,10 +28,8 @@ def init(log_dir, name):
     file_handler.setLevel(logging.INFO)
     logger.addHandler(file_handler)
 
-
 def get_logger():
     return logging.getLogger(_NAME)
-
 
 def iteration(summary, phase, global_step, epoch, num_epochs, step, num_steps, values, multiple_lines=False):
     logger = get_logger()

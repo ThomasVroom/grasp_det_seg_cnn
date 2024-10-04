@@ -6,7 +6,6 @@ import torch.nn.functional as functional
 from grasp_det_seg.utils.parallel import PackedSequence
 from grasp_det_seg.utils.sequence import pack_padded_images
 
-
 class SemanticSegLoss:
     """Semantic segmentation loss
 
@@ -41,7 +40,6 @@ class SemanticSegLoss:
             sem_loss.append(sem_loss_i.mean())
 
         return sum(sem_loss) / len(sem_logits)
-
 
 class SemanticSegAlgo:
     """Semantic segmentation algorithm
@@ -98,7 +96,6 @@ class SemanticSegAlgo:
         sem_pred_low_res = PackedSequence([sem_logits_low_res_i.max(dim=0)[1].float() for sem_logits_low_res_i in sem_logits_low_res])
 
         return sem_pred, sem_feats, sem_pred_low_res
-
 
 def confusion_matrix(sem_pred, sem, num_classes, ignore_index=255):
     confmat = sem_pred.new_zeros(num_classes * num_classes, dtype=torch.float)

@@ -1,6 +1,5 @@
 from .parallel import PackedSequence
 
-
 def pad_packed_images(packed_images, pad_value=0., snap_size_to=None):
     """Assemble a padded tensor for a `PackedSequence` of images with different spatial sizes
 
@@ -65,7 +64,6 @@ def pad_packed_images(packed_images, pad_value=0., snap_size_to=None):
             sizes.append((0, 0))
 
     return padded_images, sizes
-
 
 def pack_padded_images(padded_images, sizes):
     """Inverse function of `pad_packed_images`, refer to that for details"""

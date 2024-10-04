@@ -1,9 +1,7 @@
 import torch
 
-
 def _all_same(lst):
     return not lst or lst.count(lst[0]) == len(lst)
-
 
 class PackedSequence:
     def __init__(self, *args):

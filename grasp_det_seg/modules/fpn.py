@@ -4,7 +4,6 @@ import torch.nn as nn
 import torch.nn.functional as functional
 from inplace_abn import ABN
 
-
 class FPN(nn.Module):
     """Feature Pyramid Network module
 
@@ -109,7 +108,6 @@ class FPN(nn.Module):
                 ys.append(y)
 
         return ys
-
 
 class FPNBody(nn.Module):
     """Wrapper for a backbone network and an FPN module

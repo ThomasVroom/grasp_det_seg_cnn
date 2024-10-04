@@ -13,11 +13,9 @@ from . import scheduler as lr_scheduler
 NORM_LAYERS = [ABN, nn.BatchNorm1d, nn.BatchNorm2d, nn.BatchNorm3d, nn.GroupNorm]
 OTHER_LAYERS = [nn.Linear, nn.Conv1d, nn.Conv2d, nn.Conv3d, nn.ConvTranspose1d, nn.ConvTranspose2d, nn.ConvTranspose3d]
 
-
 class Empty(Exception):
     """Exception to facilitate handling of empty predictions, annotations etc."""
     pass
-
 
 def try_index(scalar_or_list, i):
     try:
@@ -25,13 +23,11 @@ def try_index(scalar_or_list, i):
     except TypeError:
         return scalar_or_list
 
-
 def config_to_string(config):
     with io.StringIO() as sio:
         config.write(sio)
         config_str = sio.getvalue()
     return config_str
-
 
 def scheduler_from_config(scheduler_config, optimizer, epoch_length):
     assert scheduler_config["type"] in ("linear", "step", "poly", "multistep")
@@ -66,9 +62,7 @@ def scheduler_from_config(scheduler_config, optimizer, epoch_length):
         scheduler = lr_scheduler.BurnInLR(scheduler,
                                           scheduler_config.getint("burn_in_steps"),
                                           scheduler_config.getfloat("burn_in_start"))
-
     return scheduler
-
 
 def norm_act_from_config(body_config):
     """Make normalization + activation function from configuration
@@ -126,12 +120,10 @@ def norm_act_from_config(body_config):
 
     return norm_act_static, norm_act_dynamic
 
-
 def freeze_params(module):
     """Freeze all parameters of the given module"""
     for p in module.parameters():
         p.requires_grad_(False)
-
 
 def all_reduce_losses(losses):
     """Coalesced mean all reduce over a dictionary of 0-dimensional tensors"""

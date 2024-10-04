@@ -12,7 +12,6 @@ from grasp_det_seg.utils.parallel import PackedSequence
 
 CHUNK_SIZE = 16
 
-
 class ProposalGenerator:
     """Perform NMS-based selection of proposals
 
@@ -85,7 +84,6 @@ class ProposalGenerator:
                 proposals.append(None)
 
         return PackedSequence(proposals)
-
 
 class AnchorMatcher:
     """Match anchors to ground truth boxes
@@ -192,7 +190,6 @@ class AnchorMatcher:
 
         return torch.stack(match, dim=0)
 
-
 class RPNLoss:
     """RPN loss function
 
@@ -235,7 +232,6 @@ class RPNLoss:
             bbx_loss = bbx_logits.sum() * 0
 
         return obj_loss.mean(), bbx_loss.mean()
-
 
 class RPNAlgo:
     """Base class for RPN algorithms

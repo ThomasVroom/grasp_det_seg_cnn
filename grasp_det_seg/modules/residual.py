@@ -4,7 +4,6 @@ import torch.nn as nn
 import torch.nn.functional as functional
 from inplace_abn import ABN
 
-
 class ResidualBlock(nn.Module):
     """Configurable residual block
 

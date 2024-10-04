@@ -1,6 +1,5 @@
 import ast
 import configparser
-from os import path, listdir
 
 _CONVERTERS = {
     "struct": ast.literal_eval

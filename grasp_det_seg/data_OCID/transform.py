@@ -1,11 +1,9 @@
 import random
-import scipy
 import numpy as np
 import torch
 from PIL import Image
 import cv2
 from torchvision.transforms import functional as tfn
-
 
 class OCIDTransform:
     """Transformer function for OCID_grasp dataset
@@ -46,15 +44,6 @@ class OCIDTransform:
         else:
             return img, msk
 
-    def _random_target_size(self):
-        if len(self.random_scale) == 2:
-            target_size = random.uniform(self.shortest_size * self.random_scale[0],
-                                         self.shortest_size * self.random_scale[1])
-        else:
-            target_sizes = [self.shortest_size * scale for scale in self.random_scale]
-            target_size = random.choice(target_sizes)
-        return int(target_size)
-
     def _normalize_image(self, img):
         if self.rgb_mean is not None:
             img.sub_(img.new(self.rgb_mean).view(-1, 1, 1))
@@ -65,8 +54,8 @@ class OCIDTransform:
     @staticmethod
     def _Rotate2D(pts, cnt, ang):
         ang = np.deg2rad(ang)
-        return scipy.dot(pts - cnt,
-                         scipy.array([[scipy.cos(ang), scipy.sin(ang)], [-scipy.sin(ang), scipy.cos(ang)]])) + cnt
+        return np.dot(pts - cnt,
+                         np.array([[np.cos(ang), np.sin(ang)], [-np.sin(ang), np.cos(ang)]])) + cnt
 
     @staticmethod
     def _prepare_frcnn_format(boxes, im_size):
@@ -188,18 +177,13 @@ class OCIDTransform:
         if self.rotate_and_scale:
             img, msk, bbox_transformed = self._rotateAndScale(img, msk, bbox_infos_)
             bbox_infos = bbox_transformed
+        
         # Random flip
         if self.random_flip:
             img, msk = self._random_flip(img, msk)
 
-        # Adjust scale, possibly at random
-        if self.random_scale is not None:
-            target_size = self._random_target_size()
-        else:
-            target_size = self.shortest_size
-
         ret = self._prepare_frcnn_format(bbox_infos, im_size)
-        (x1, y1, theta, x2, y2, cls) = ret
+        (_, _, _, _, _, cls) = ret
         if len(cls) == 0:
             print('NO valid boxes after augmentation, switch to gt values')
             ret = self._prepare_frcnn_format(bbox_infos_, im_size)
@@ -225,7 +209,6 @@ class OCIDTransform:
             assert False
 
         return dict(img=img, msk=msk, bbx=bbx), im_size
-
 
 class OCIDTestTransform:
     """Transformer function for OCID_grasp dataset, used at test time

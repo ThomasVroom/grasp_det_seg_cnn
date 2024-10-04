@@ -1,6 +1,5 @@
 from . import _backend
 
-
 def nms(bbx, scores, threshold=0.5, n_max=-1):
     """Perform non-maxima suppression
 

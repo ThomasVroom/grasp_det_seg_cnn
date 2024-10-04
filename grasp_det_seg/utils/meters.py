@@ -2,7 +2,6 @@ from collections import OrderedDict
 
 import torch
 
-
 class Meter:
     def __init__(self):
         self._states = OrderedDict()
@@ -33,7 +32,6 @@ class Meter:
                 raise KeyError("Unexpected key {} in state dict when loading {} from state dict"
                                .format(k, self.__class__.__name__))
 
-
 class ConstantMeter(Meter):
     def __init__(self, shape):
         super(ConstantMeter, self).__init__()
@@ -45,7 +43,6 @@ class ConstantMeter(Meter):
     @property
     def value(self):
         return self.last
-
 
 class AverageMeter(ConstantMeter):
     def __init__(self, shape, momentum=1.):
@@ -66,7 +63,6 @@ class AverageMeter(ConstantMeter):
         else:
             return self.sum / self.count.clamp(min=1)
 
-
 class ConfusionMatrixMeter(AverageMeter):
     def __init__(self, num_classes, momentum=1.):
         super(ConfusionMatrixMeter, self).__init__((num_classes, num_classes), momentum)
@@ -83,7 +79,6 @@ class ConfusionMatrixMeter(AverageMeter):
     @property
     def recall(self):
         return self.mean.diag() * torch.clamp(1. / self.mean.sum(dim=1), max=1.)
-
 
 class PanopticMeter(AverageMeter):
     def panoptic(self):

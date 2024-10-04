@@ -7,7 +7,6 @@ from . import _backend
 _INTERPOLATION = {"bilinear": _backend.Interpolation.Bilinear, "nearest": _backend.Interpolation.Nearest}
 _PADDING = {"zero": _backend.PaddingMode.Zero, "border": _backend.PaddingMode.Border}
 
-
 class ROISampling(autograd.Function):
     @staticmethod
     def forward(ctx, x, bbx, idx, roi_size, interpolation, padding, valid_mask):
@@ -48,7 +47,6 @@ class ROISampling(autograd.Function):
         dx = _backend.roi_sampling_backward(dy, bbx, idx, ctx.input_shape, ctx.interpolation, ctx.padding)
         return dx, None, None, None, None, None, None
 
-
 def roi_sampling(x, bbx, idx, roi_size, interpolation="bilinear", padding="border", valid_mask=False):
     """Sample ROIs from a batch of images using bi-linear interpolation
 
@@ -87,6 +85,5 @@ def roi_sampling(x, bbx, idx, roi_size, interpolation="bilinear", padding="borde
         entries are `!= 0` where the corresponding location in `y` was sampled from within the limits of the input image
     """
     return ROISampling.apply(x, bbx, idx, roi_size, interpolation, padding, valid_mask)
-
 
 __all__ = ["roi_sampling"]

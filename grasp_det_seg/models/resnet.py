@@ -9,7 +9,6 @@ from grasp_det_seg.modules.misc import GlobalAvgPool2d
 from grasp_det_seg.modules.residual import ResidualBlock
 from grasp_det_seg.utils.misc import try_index
 
-
 class ResNet(nn.Module):
     """Standard residual network
 
@@ -119,7 +118,6 @@ class ResNet(nn.Module):
             outs["classifier"] = self.classifier(outs["mod5"])
 
         return outs
-
 
 _NETS = {
     "18": {"structure": [2, 2, 2, 2], "bottleneck": False},
